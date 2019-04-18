@@ -7,23 +7,43 @@
 //
 
 import UIKit
+import CoreData
 
 class StartupsController: UITableViewController, CreateStartupControllerDelegate {
+    
+    fileprivate func fetchStartups(){
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<Startup>(entityName: "Startup")
+        
+        do {
+            let startups = try context.fetch(fetchRequest)
+            
+            startups.forEach({print($0.name ?? ""); self.startups.append($0)})
+            
+            self.tableView.reloadData()
+            
+        } catch let fetchErr {
+            print("Failed to fetch startups:", fetchErr.localizedDescription)
+        }
+    }
     
     func didAddStartup(startup: Startup) {
         startups.append(startup)
         let newIndexPath = IndexPath(row: startups.count - 1, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        tableView.insertRows(at: [newIndexPath], with: .fade)
+    }
+    
+    func didEditStartup(startup: Startup) {
+        let row = startups.firstIndex(of: startup)
+        let indexPath = IndexPath(row: row!, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .middle)
+//        tableView.reloadData()
     }
     
     let cellId = "cellId"
     
-    var startups = [
-        Startup(name: "Uber", founded: Date()),
-        Startup(name: "Rappi", founded: Date()),
-        Startup(name: "Platzi", founded: Date()),
-        Startup(name: "Glovo", founded: Date())
-    ]
+    var startups = [Startup]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +51,10 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
         tableView.backgroundColor = UIColor.darkBlue
         tableView.separatorColor = .white
         setupNavStyle()
+        fetchStartups()
     }
     
     fileprivate func setupNavStyle(){
-        
         navigationItem.title =  "Startups"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAddStartup))
     }
@@ -51,7 +71,20 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
         
         let startup = startups[indexPath.row]
         
-        cell.textLabel?.text = startup.name
+        if let name = startup.name, let founded = startup.founded {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd MMM, yyyy"
+            
+            let foundedDateString = dateFormatter.string(from: founded)
+            
+            let dateString = "\(name)- Founded: \(foundedDateString)"
+            cell.textLabel?.text = dateString
+            
+        }else{
+            cell.textLabel?.text = startup.name
+        }
+        
         cell.backgroundColor = UIColor.tealColor
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -78,6 +111,49 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .normal, title: "Delete", handler: deleteHandlerFunction)
+        deleteAction.backgroundColor = UIColor.lightRed
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editHandlerFunction)
+        editAction.backgroundColor = UIColor.darkBlue
+        
+        return [deleteAction, editAction]
+    }
+    
+    fileprivate func deleteHandlerFunction(action:UITableViewRowAction, indexPath:IndexPath){
+        let startup = self.startups[indexPath.row]
+        
+        //RMV the startup from TV
+        self.startups.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        //RMV the startup from CD
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        
+        context.delete(startup)
+        
+        do{
+            try context.save()
+        } catch let saveErr{
+            print("Failed to delete startup", saveErr.localizedDescription)
+        }
+    }
+    
+    fileprivate func editHandlerFunction(action:UITableViewRowAction, indexPath:IndexPath){
+        print("Editing startup")
+        
+        let startup = startups[indexPath.row]
+        
+        let editStartupController = CreateStartupController()
+        editStartupController.delegate = self
+        editStartupController.startup = startup
+        
+        let navController = CustomNavigationController(rootViewController: editStartupController)
+    
+        present(navController, animated: true, completion: nil)
     }
 
 }

@@ -7,12 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 protocol CreateStartupControllerDelegate {
     func didAddStartup(startup:Startup)
+    func didEditStartup(startup:Startup)
 }
 
 class CreateStartupController: UIViewController {
+    
+    var startup:Startup?{
+        didSet{
+            nameTextField.text = startup?.name
+            
+            guard let founded = startup?.founded else {return}
+            datePicker.date = founded
+        }
+    }
     
     var delegate:CreateStartupControllerDelegate?
     
@@ -30,23 +41,74 @@ class CreateStartupController: UIViewController {
         return tf
     }()
     
+    let datePicker:UIDatePicker = {
+        let dp = UIDatePicker()
+        dp.translatesAutoresizingMaskIntoConstraints = false
+        dp.datePickerMode = .date
+        return dp
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.darkBlue
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-        navigationItem.title = "Create Startup"
         setupUI()
     }
     
-    @objc fileprivate func handleSave(){
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = startup == nil ? "Create Startup":"Edit \(startup?.name ?? "")"
+    }
     
-        dismiss(animated: true) {
-            guard let name = self.nameTextField.text else {return}
-            let startup = Startup(name: name, founded: Date())
-            self.delegate?.didAddStartup(startup: startup)
+    @objc fileprivate func handleSave(){
+        if startup == nil{
+            createStartup()
+        }else{
+            saveStartupChanges()
+        }
+    }
+    
+    fileprivate func saveStartupChanges(){
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        startup?.name = nameTextField.text
+        startup?.founded = datePicker.date
+        
+        do {
+            try context.save()
+            
+            //Success saving
+            dismiss(animated: true) {
+                self.delegate?.didEditStartup(startup: self.startup!)
+            }
+            
+        } catch let err {
+            print(err.localizedDescription)
         }
         
+    }
+    
+    fileprivate func createStartup(){
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        
+        //        let startup = NSEntityDescription.insertNewObject(forEntityName: "Startup", into: context)
+        let startup = Startup(context: context)
+        
+        //        startup.setValue(nameTextField.text, forKey: "name")
+        startup.name = nameTextField.text
+        startup.founded = datePicker.date
+        
+        do {
+            try context.save()
+            
+            //Success saving
+            dismiss(animated: true) {
+                self.delegate?.didAddStartup(startup: startup)
+            }
+            
+        } catch let err {
+            print(err.localizedDescription)
+        }
     }
     
     fileprivate func setupUI(){
@@ -57,12 +119,13 @@ class CreateStartupController: UIViewController {
         view.addSubview(lightBlueBackgroundView)
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
+        view.addSubview(datePicker)
         
         NSLayoutConstraint.activate([
                 lightBlueBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 lightBlueBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
                 lightBlueBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                lightBlueBackgroundView.heightAnchor.constraint(equalToConstant: 50),
+                lightBlueBackgroundView.heightAnchor.constraint(equalToConstant: 250),
             
                 nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
                 nameLabel.topAnchor.constraint(equalTo: view.topAnchor),
@@ -72,7 +135,12 @@ class CreateStartupController: UIViewController {
                 nameTextField.topAnchor.constraint(equalTo: nameLabel.topAnchor),
                 nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
                 nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-                nameTextField.heightAnchor.constraint(equalToConstant: 50)
+                nameTextField.heightAnchor.constraint(equalToConstant: 50),
+                
+                datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                datePicker.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+                datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                datePicker.bottomAnchor.constraint(equalTo: lightBlueBackgroundView.bottomAnchor)
             ])
     }
     

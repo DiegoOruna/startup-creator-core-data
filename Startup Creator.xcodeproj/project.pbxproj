@@ -13,8 +13,9 @@
 		048CECAF22680A3D00BCDBAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048CECAE22680A3D00BCDBAB /* Assets.xcassets */; };
 		048CECB222680A3D00BCDBAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048CECB022680A3D00BCDBAB /* LaunchScreen.storyboard */; };
 		048CECBA2268178B00BCDBAB /* UIColor+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECB92268178B00BCDBAB /* UIColor+theme.swift */; };
-		048CECBC22681AAB00BCDBAB /* Startup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECBB22681AAB00BCDBAB /* Startup.swift */; };
 		048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */; };
+		04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */; };
+		04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646622691B61004675E5 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +27,9 @@
 		048CECB122680A3D00BCDBAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048CECB322680A3D00BCDBAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		048CECB92268178B00BCDBAB /* UIColor+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+theme.swift"; sourceTree = "<group>"; };
-		048CECBB22681AAB00BCDBAB /* Startup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Startup.swift; sourceTree = "<group>"; };
 		048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStartupController.swift; sourceTree = "<group>"; };
+		04B3646422691374004675E5 /* StartupCreatorModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StartupCreatorModel.xcdatamodel; sourceTree = "<group>"; };
+		04B3646622691B61004675E5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +70,8 @@
 				048CECB022680A3D00BCDBAB /* LaunchScreen.storyboard */,
 				048CECB322680A3D00BCDBAB /* Info.plist */,
 				048CECB92268178B00BCDBAB /* UIColor+theme.swift */,
-				048CECBB22681AAB00BCDBAB /* Startup.swift */,
+				04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */,
+				04B3646622691B61004675E5 /* CoreDataManager.swift */,
 			);
 			path = "Startup Creator";
 			sourceTree = "<group>";
@@ -144,11 +147,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */,
 				048CECBA2268178B00BCDBAB /* UIColor+theme.swift in Sources */,
 				048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */,
 				048CECAA22680A3900BCDBAB /* StartupsController.swift in Sources */,
 				048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */,
-				048CECBC22681AAB00BCDBAB /* Startup.swift in Sources */,
+				04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +352,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				04B3646422691374004675E5 /* StartupCreatorModel.xcdatamodel */,
+			);
+			currentVersion = 04B3646422691374004675E5 /* StartupCreatorModel.xcdatamodel */;
+			path = StartupCreatorModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 048CEC9C22680A3900BCDBAB /* Project object */;
 }
