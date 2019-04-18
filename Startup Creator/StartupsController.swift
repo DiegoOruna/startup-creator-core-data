@@ -8,9 +8,22 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class StartupsController: UITableViewController, CreateStartupControllerDelegate {
+    
+    func didAddStartup(startup: Startup) {
+        startups.append(startup)
+        let newIndexPath = IndexPath(row: startups.count - 1, section: 0)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+    }
     
     let cellId = "cellId"
+    
+    var startups = [
+        Startup(name: "Uber", founded: Date()),
+        Startup(name: "Rappi", founded: Date()),
+        Startup(name: "Platzi", founded: Date()),
+        Startup(name: "Glovo", founded: Date())
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,24 +34,24 @@ class ViewController: UITableViewController {
     }
     
     fileprivate func setupNavStyle(){
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.barTintColor =  UIColor.lightRed
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        navigationItem.title =  "Startups"
         
+        navigationItem.title =  "Startups"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAddStartup))
     }
     
     @objc fileprivate func handleAddStartup(){
-        print("Trying to add a new startup")
+        let createStartupController = CreateStartupController()
+        createStartupController.delegate = self
+        let navController = CustomNavigationController(rootViewController: createStartupController)
+        present(navController, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = "Startup name"
         
+        let startup = startups[indexPath.row]
+        
+        cell.textLabel?.text = startup.name
         cell.backgroundColor = UIColor.tealColor
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -46,7 +59,7 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return startups.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
