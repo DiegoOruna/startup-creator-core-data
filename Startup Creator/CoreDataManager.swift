@@ -25,4 +25,21 @@ struct CoreDataManager {
         return container
         
     }()
+    
+    func fetchStartups() -> [Startup]{
+        
+        let context = persistantContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<Startup>(entityName: "Startup")
+        
+        do {
+            let startups = try context.fetch(fetchRequest)
+            return startups
+            
+        } catch let fetchErr {
+            print("Failed to fetch startups:", fetchErr.localizedDescription)
+            return []
+        }
+        
+    }
 }

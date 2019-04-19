@@ -17,6 +17,8 @@
 		04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */; };
 		04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646622691B61004675E5 /* CoreDataManager.swift */; };
 		04BAFAC022699F810082FC22 /* StartupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BAFABF22699F810082FC22 /* StartupCell.swift */; };
+		04BAFAC32269A9300082FC22 /* StartupController+CreateStartup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BAFAC22269A9300082FC22 /* StartupController+CreateStartup.swift */; };
+		04BAFAC52269AA000082FC22 /* StartupController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BAFAC42269AA000082FC22 /* StartupController+UITableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		04B3646422691374004675E5 /* StartupCreatorModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StartupCreatorModel.xcdatamodel; sourceTree = "<group>"; };
 		04B3646622691B61004675E5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		04BAFABF22699F810082FC22 /* StartupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupCell.swift; sourceTree = "<group>"; };
+		04BAFAC22269A9300082FC22 /* StartupController+CreateStartup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartupController+CreateStartup.swift"; sourceTree = "<group>"; };
+		04BAFAC42269AA000082FC22 /* StartupController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartupController+UITableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 			children = (
 				048CECA922680A3900BCDBAB /* StartupsController.swift */,
 				04BAFABF22699F810082FC22 /* StartupCell.swift */,
+				04BAFAC22269A9300082FC22 /* StartupController+CreateStartup.swift */,
+				04BAFAC42269AA000082FC22 /* StartupController+UITableView.swift */,
 			);
 			path = Startups;
 			sourceTree = "<group>";
@@ -161,6 +167,8 @@
 				04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */,
 				048CECBA2268178B00BCDBAB /* UIColor+theme.swift in Sources */,
 				048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */,
+				04BAFAC52269AA000082FC22 /* StartupController+UITableView.swift in Sources */,
+				04BAFAC32269A9300082FC22 /* StartupController+CreateStartup.swift in Sources */,
 				048CECAA22680A3900BCDBAB /* StartupsController.swift in Sources */,
 				04BAFAC022699F810082FC22 /* StartupCell.swift in Sources */,
 				048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */,
