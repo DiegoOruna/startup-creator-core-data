@@ -16,6 +16,7 @@
 		048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */; };
 		04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */; };
 		04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3646622691B61004675E5 /* CoreDataManager.swift */; };
+		04BAFAC022699F810082FC22 /* StartupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BAFABF22699F810082FC22 /* StartupCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStartupController.swift; sourceTree = "<group>"; };
 		04B3646422691374004675E5 /* StartupCreatorModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StartupCreatorModel.xcdatamodel; sourceTree = "<group>"; };
 		04B3646622691B61004675E5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		04BAFABF22699F810082FC22 /* StartupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +64,8 @@
 		048CECA622680A3900BCDBAB /* Startup Creator */ = {
 			isa = PBXGroup;
 			children = (
+				04BAFAC12269A05C0082FC22 /* Startups */,
 				048CECA722680A3900BCDBAB /* AppDelegate.swift */,
-				048CECA922680A3900BCDBAB /* StartupsController.swift */,
 				048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */,
 				048CECAB22680A3900BCDBAB /* Main.storyboard */,
 				048CECAE22680A3D00BCDBAB /* Assets.xcassets */,
@@ -74,6 +76,15 @@
 				04B3646622691B61004675E5 /* CoreDataManager.swift */,
 			);
 			path = "Startup Creator";
+			sourceTree = "<group>";
+		};
+		04BAFAC12269A05C0082FC22 /* Startups */ = {
+			isa = PBXGroup;
+			children = (
+				048CECA922680A3900BCDBAB /* StartupsController.swift */,
+				04BAFABF22699F810082FC22 /* StartupCell.swift */,
+			);
+			path = Startups;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +162,7 @@
 				048CECBA2268178B00BCDBAB /* UIColor+theme.swift in Sources */,
 				048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */,
 				048CECAA22680A3900BCDBAB /* StartupsController.swift in Sources */,
+				04BAFAC022699F810082FC22 /* StartupCell.swift in Sources */,
 				048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */,
 				04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */,
 			);

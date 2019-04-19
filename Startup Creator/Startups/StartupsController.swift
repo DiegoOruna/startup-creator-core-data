@@ -47,9 +47,10 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(StartupCell.self, forCellReuseIdentifier: cellId)
         tableView.backgroundColor = UIColor.darkBlue
         tableView.separatorColor = .white
+        tableView.tableFooterView = UIView()
         setupNavStyle()
         fetchStartups()
     }
@@ -57,6 +58,29 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
     fileprivate func setupNavStyle(){
         navigationItem.title =  "Startups"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAddStartup))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset))
+    }
+    
+    @objc fileprivate func handleReset(){
+        print("Reseting...")
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: Startup.fetchRequest())
+        do {
+            try context.execute(batchDeleteRequest)
+
+            var indexPathsToRemove = [IndexPath]()
+            
+            for (index, _) in startups.enumerated(){
+                let indexPath = IndexPath(row: index, section: 0)
+                indexPathsToRemove.append(indexPath)
+            }
+            startups.removeAll()
+            tableView.deleteRows(at: indexPathsToRemove, with: .left)
+        } catch let delErr {
+            print("Error deleting objects from CD: ", delErr.localizedDescription)
+        }
+        
     }
     
     @objc fileprivate func handleAddStartup(){
@@ -67,40 +91,19 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! StartupCell
         
-        let startup = startups[indexPath.row]
-        
-        if let name = startup.name, let founded = startup.founded {
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd MMM, yyyy"
-            
-            let foundedDateString = dateFormatter.string(from: founded)
-            
-            let dateString = "\(name)- Founded: \(foundedDateString)"
-            cell.textLabel?.text = dateString
-            
-        }else{
-            cell.textLabel?.text = startup.name
-        }
-        
-        cell.backgroundColor = UIColor.tealColor
-        cell.textLabel?.textColor = .white
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        let currentStartup = startups[indexPath.row]
+        cell.startup = currentStartup
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return startups.count
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -111,6 +114,19 @@ class StartupsController: UITableViewController, CreateStartupControllerDelegate
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "No Startups available..."
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return startups.count == 0 ? 150:0
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

@@ -14,6 +14,22 @@ protocol CreateStartupControllerDelegate {
     func didEditStartup(startup:Startup)
 }
 
+extension CreateStartupController:UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            startupImageView.image = editedImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            startupImageView.image = originalImage
+        }
+        
+        dismiss(animated: true, completion: nil)
+
+    }
+
+}
+
 class CreateStartupController: UIViewController {
     
     var startup:Startup?{
@@ -22,10 +38,33 @@ class CreateStartupController: UIViewController {
             
             guard let founded = startup?.founded else {return}
             datePicker.date = founded
+            
+            guard let imageData = startup?.imageData else {return}
+            startupImageView.image = UIImage(data: imageData)
         }
     }
     
     var delegate:CreateStartupControllerDelegate?
+    
+    lazy var startupImageView:UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "select_photo_empty"))
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.isUserInteractionEnabled = true
+        iv.layer.cornerRadius = 100/2
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
+        iv.layer.borderColor = UIColor.darkBlue.cgColor
+        iv.layer.borderWidth = 1
+        iv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectPhoto)))
+        return iv
+    }()
+    
+    @objc fileprivate func handleSelectPhoto(){
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        present(imagePickerController, animated: true, completion: nil)
+    }
     
     let nameLabel:UILabel = {
         let label  = UILabel()
@@ -74,6 +113,9 @@ class CreateStartupController: UIViewController {
         startup?.name = nameTextField.text
         startup?.founded = datePicker.date
         
+        let imageData = startupImageView.image?.jpegData(compressionQuality: 0.8)
+        startup?.imageData = imageData
+        
         do {
             try context.save()
             
@@ -97,6 +139,8 @@ class CreateStartupController: UIViewController {
         //        startup.setValue(nameTextField.text, forKey: "name")
         startup.name = nameTextField.text
         startup.founded = datePicker.date
+        let imageData = startupImageView.image?.jpegData(compressionQuality: 0.8)
+        startup.imageData = imageData
         
         do {
             try context.save()
@@ -120,15 +164,21 @@ class CreateStartupController: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
         view.addSubview(datePicker)
+        view.addSubview(startupImageView)
         
         NSLayoutConstraint.activate([
                 lightBlueBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 lightBlueBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
                 lightBlueBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                lightBlueBackgroundView.heightAnchor.constraint(equalToConstant: 250),
+                lightBlueBackgroundView.heightAnchor.constraint(equalToConstant: 350),
+                
+                startupImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
+                startupImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                startupImageView.widthAnchor.constraint(equalToConstant: 100),
+                startupImageView.heightAnchor.constraint(equalToConstant: 100),
             
                 nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-                nameLabel.topAnchor.constraint(equalTo: view.topAnchor),
+                nameLabel.topAnchor.constraint(equalTo: startupImageView.bottomAnchor),
                 nameLabel.widthAnchor.constraint(equalToConstant: 90),
                 nameLabel.heightAnchor.constraint(equalToConstant: 50),
                 
@@ -137,9 +187,9 @@ class CreateStartupController: UIViewController {
                 nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
                 nameTextField.heightAnchor.constraint(equalToConstant: 50),
                 
-                datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
                 datePicker.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-                datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 datePicker.bottomAnchor.constraint(equalTo: lightBlueBackgroundView.bottomAnchor)
             ])
     }
