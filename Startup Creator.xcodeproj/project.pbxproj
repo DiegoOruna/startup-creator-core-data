@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047031E5226A07E400C8E0C7 /* EmployeesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E4226A07E400C8E0C7 /* EmployeesController.swift */; };
+		047031E8226A095B00C8E0C7 /* UIViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E7226A095B00C8E0C7 /* UIViewController+Helpers.swift */; };
+		047031EA226A0A7700C8E0C7 /* CreateEmployeeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */; };
 		048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECA722680A3900BCDBAB /* AppDelegate.swift */; };
 		048CECAA22680A3900BCDBAB /* StartupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CECA922680A3900BCDBAB /* StartupsController.swift */; };
 		048CECAD22680A3900BCDBAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048CECAB22680A3900BCDBAB /* Main.storyboard */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		047031E4226A07E400C8E0C7 /* EmployeesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesController.swift; sourceTree = "<group>"; };
+		047031E7226A095B00C8E0C7 /* UIViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helpers.swift"; sourceTree = "<group>"; };
+		047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeController.swift; sourceTree = "<group>"; };
 		048CECA422680A3900BCDBAB /* Startup Creator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Startup Creator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048CECA722680A3900BCDBAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048CECA922680A3900BCDBAB /* StartupsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupsController.swift; sourceTree = "<group>"; };
@@ -49,6 +55,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047031E6226A093F00C8E0C7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				047031E7226A095B00C8E0C7 /* UIViewController+Helpers.swift */,
+				048CECB92268178B00BCDBAB /* UIColor+theme.swift */,
+				04B3646622691B61004675E5 /* CoreDataManager.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		047031EB226A0D5B00C8E0C7 /* Employees */ = {
+			isa = PBXGroup;
+			children = (
+				047031E4226A07E400C8E0C7 /* EmployeesController.swift */,
+				047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */,
+			);
+			path = Employees;
+			sourceTree = "<group>";
+		};
 		048CEC9B22680A3900BCDBAB = {
 			isa = PBXGroup;
 			children = (
@@ -68,16 +93,15 @@
 		048CECA622680A3900BCDBAB /* Startup Creator */ = {
 			isa = PBXGroup;
 			children = (
+				047031E6226A093F00C8E0C7 /* Helpers */,
 				04BAFAC12269A05C0082FC22 /* Startups */,
+				047031EB226A0D5B00C8E0C7 /* Employees */,
 				048CECA722680A3900BCDBAB /* AppDelegate.swift */,
-				048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */,
 				048CECAB22680A3900BCDBAB /* Main.storyboard */,
 				048CECAE22680A3D00BCDBAB /* Assets.xcassets */,
 				048CECB022680A3D00BCDBAB /* LaunchScreen.storyboard */,
 				048CECB322680A3D00BCDBAB /* Info.plist */,
-				048CECB92268178B00BCDBAB /* UIColor+theme.swift */,
 				04B3646322691374004675E5 /* StartupCreatorModel.xcdatamodeld */,
-				04B3646622691B61004675E5 /* CoreDataManager.swift */,
 			);
 			path = "Startup Creator";
 			sourceTree = "<group>";
@@ -89,6 +113,7 @@
 				04BAFABF22699F810082FC22 /* StartupCell.swift */,
 				04BAFAC22269A9300082FC22 /* StartupController+CreateStartup.swift */,
 				04BAFAC42269AA000082FC22 /* StartupController+UITableView.swift */,
+				048CECBD22681F3F00BCDBAB /* CreateStartupController.swift */,
 			);
 			path = Startups;
 			sourceTree = "<group>";
@@ -165,12 +190,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B3646722691B61004675E5 /* CoreDataManager.swift in Sources */,
+				047031EA226A0A7700C8E0C7 /* CreateEmployeeController.swift in Sources */,
 				048CECBA2268178B00BCDBAB /* UIColor+theme.swift in Sources */,
 				048CECBE22681F3F00BCDBAB /* CreateStartupController.swift in Sources */,
+				047031E5226A07E400C8E0C7 /* EmployeesController.swift in Sources */,
 				04BAFAC52269AA000082FC22 /* StartupController+UITableView.swift in Sources */,
 				04BAFAC32269A9300082FC22 /* StartupController+CreateStartup.swift in Sources */,
 				048CECAA22680A3900BCDBAB /* StartupsController.swift in Sources */,
 				04BAFAC022699F810082FC22 /* StartupCell.swift in Sources */,
+				047031E8226A095B00C8E0C7 /* UIViewController+Helpers.swift in Sources */,
 				048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */,
 				04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */,
 			);

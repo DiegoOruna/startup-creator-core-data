@@ -10,6 +10,16 @@ import UIKit
 
 extension StartupsController{
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let employeesController = EmployeesController()
+        
+        let startup = startups[indexPath.row]
+        employeesController.startup = startup
+        
+        navigationController?.pushViewController(employeesController, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! StartupCell
         

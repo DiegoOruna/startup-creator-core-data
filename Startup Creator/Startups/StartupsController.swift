@@ -28,7 +28,7 @@ class StartupsController: UITableViewController {
     
     fileprivate func setupNavStyle(){
         navigationItem.title =  "Startups"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAddStartup))
+        setupPlusButtonInNavBar(selector: #selector(handleAddStartup))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset))
     }
     

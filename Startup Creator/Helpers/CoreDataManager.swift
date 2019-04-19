@@ -42,4 +42,26 @@ struct CoreDataManager {
         }
         
     }
+    
+    func createEmployee(employeeName:String) -> (Employee?,Error?){
+        
+        let context = persistantContainer.viewContext
+        
+        let employee = Employee(context: context)
+        employee.name = employeeName
+        
+        let employeeInformation = EmployeeInformation(context: context)
+        employeeInformation.taxId = "455"
+        
+        employee.employeeInformation = employeeInformation
+        
+        do {
+            try context.save()
+            return (employee,nil)
+        } catch let err {
+            print("Failed to create employee",err.localizedDescription)
+            return (nil,err)
+        }
+        
+    }
 }

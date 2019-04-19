@@ -90,8 +90,8 @@ class CreateStartupController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.darkBlue
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
+        setupCancelButtonInNavBar()
+        setupSaveButtonInNavBar(selector: #selector(handleSave))
         setupUI()
     }
     
@@ -156,21 +156,14 @@ class CreateStartupController: UIViewController {
     }
     
     fileprivate func setupUI(){
-        let lightBlueBackgroundView = UIView()
-        lightBlueBackgroundView.backgroundColor = UIColor.lightBlue
-        lightBlueBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(lightBlueBackgroundView)
+        let lightBlueBackgroundView = setupLightBlueBackgroundView(height: 350)
+
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
         view.addSubview(datePicker)
         view.addSubview(startupImageView)
         
         NSLayoutConstraint.activate([
-                lightBlueBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                lightBlueBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-                lightBlueBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                lightBlueBackgroundView.heightAnchor.constraint(equalToConstant: 350),
                 
                 startupImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
                 startupImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -192,10 +185,6 @@ class CreateStartupController: UIViewController {
                 datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 datePicker.bottomAnchor.constraint(equalTo: lightBlueBackgroundView.bottomAnchor)
             ])
-    }
-    
-    @objc fileprivate func handleCancel(){
-        dismiss(animated: true, completion: nil)
     }
     
 }
