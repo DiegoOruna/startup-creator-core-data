@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041A0336226AD2AE0073380F /* EmployeeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A0335226AD2AE0073380F /* EmployeeType.swift */; };
 		047031E5226A07E400C8E0C7 /* EmployeesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E4226A07E400C8E0C7 /* EmployeesController.swift */; };
 		047031E8226A095B00C8E0C7 /* UIViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E7226A095B00C8E0C7 /* UIViewController+Helpers.swift */; };
 		047031EA226A0A7700C8E0C7 /* CreateEmployeeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041A0335226AD2AE0073380F /* EmployeeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeType.swift; sourceTree = "<group>"; };
 		047031E4226A07E400C8E0C7 /* EmployeesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesController.swift; sourceTree = "<group>"; };
 		047031E7226A095B00C8E0C7 /* UIViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helpers.swift"; sourceTree = "<group>"; };
 		047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			children = (
 				047031E4226A07E400C8E0C7 /* EmployeesController.swift */,
 				047031E9226A0A7700C8E0C7 /* CreateEmployeeController.swift */,
+				041A0335226AD2AE0073380F /* EmployeeType.swift */,
 			);
 			path = Employees;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				047031E8226A095B00C8E0C7 /* UIViewController+Helpers.swift in Sources */,
 				048CECA822680A3900BCDBAB /* AppDelegate.swift in Sources */,
 				04B3646522691374004675E5 /* StartupCreatorModel.xcdatamodeld in Sources */,
+				041A0336226AD2AE0073380F /* EmployeeType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,8 @@ protocol CreateEmployeeControllerDelegate {
 
 class CreateEmployeeController: UIViewController {
     
+    var startup:Startup?
+    
     var delegate:CreateEmployeeControllerDelegate?
     
     let nameLabel:UILabel = {
@@ -30,20 +32,68 @@ class CreateEmployeeController: UIViewController {
         return tf
     }()
     
+    let birthdayLabel:UILabel = {
+        let label  = UILabel()
+        label.text = "Birthday"
+        label.translatesAutoresizingMaskIntoConstraints =  false
+        return label
+    }()
+    
+    let birthdayTextField:UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "DD/MM/YYYY"
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
+    let employeeTypeSegmentedControler:UISegmentedControl = {
+//        let types = ["Executive","Senior Management","Staff"]
+        let types = [
+            EmployeeType.Executive.rawValue,
+            EmployeeType.SeniorManagement.rawValue,
+            EmployeeType.Staff.rawValue
+        ]
+        let sc = UISegmentedControl(items: types)
+        sc.selectedSegmentIndex = 0
+        sc.tintColor = UIColor.darkBlue
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        return sc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Create Employee"
         setupCancelButtonInNavBar()
         setupSaveButtonInNavBar(selector: #selector(handleSave))
         view.backgroundColor = UIColor.darkBlue
-        _ = setupLightBlueBackgroundView(height: 50)
+        _ = setupLightBlueBackgroundView(height: 150)
         setupUI()
     }
     
     @objc fileprivate func handleSave(){
         
         guard let employeeName = nameTextField.text else {return}
-        let tuple = CoreDataManager.shared.createEmployee(employeeName: employeeName)
+        guard let startup = startup else {return}
+        
+        guard let birthdayText = birthdayTextField.text else {return}
+        
+        if birthdayText.isEmpty {
+            showError(title: "Birthday Empty", message: "You have not entered a Birthday")
+            return
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        
+        guard let birthdayDate = dateFormatter.date(from: birthdayText) else {
+            showError(title: "Bad Date", message: "Incorrect Format")
+            return
+        }
+        
+        guard let employeeType = employeeTypeSegmentedControler.titleForSegment(at: employeeTypeSegmentedControler.selectedSegmentIndex) else {return}
+        
+        let tuple = CoreDataManager.shared.createEmployee(employeeName: employeeName, birthday: birthdayDate, employeeType: employeeType, startup: startup)
+        
         guard let emp = tuple.0 else {return}
         
         if let err = tuple.1{
@@ -56,9 +106,18 @@ class CreateEmployeeController: UIViewController {
 
     }
     
+    fileprivate func showError(title:String, message:String){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
     func setupUI(){
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
+        view.addSubview(birthdayLabel)
+        view.addSubview(birthdayTextField)
+        view.addSubview(employeeTypeSegmentedControler)
         
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -70,6 +129,22 @@ class CreateEmployeeController: UIViewController {
             nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            birthdayLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+            birthdayLabel.widthAnchor.constraint(equalToConstant: 90),
+            birthdayLabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            birthdayTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor),
+            birthdayTextField.leadingAnchor.constraint(equalTo: birthdayLabel.trailingAnchor),
+            birthdayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            birthdayTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            employeeTypeSegmentedControler.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 5),
+            employeeTypeSegmentedControler.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            employeeTypeSegmentedControler.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            employeeTypeSegmentedControler.heightAnchor.constraint(equalToConstant: 35)
+            
             ])
         
     }
